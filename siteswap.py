@@ -5,13 +5,8 @@ class Validator:
 		Validates a given vanilla siteswap
 	"""
 	def validate(self, siteswap: str) -> bool:
-		if not self.num_balls(siteswap):
-			print(f"{siteswap:<8} INVALID")
-			return False
-		if self.collisions(siteswap):
-			print(f"{siteswap:<8} INVALID")
-			return False
-		print(f"{siteswap:<9} VALID")
+		if not self.num_balls(siteswap): return False
+		if self.collisions(siteswap): return False
 		return True
 
 	"""
@@ -49,26 +44,3 @@ class Validator:
 			if beat > 26 or beat < 10:
 				return None
 			return beat
-
-def main():
-	validator = Validator()
-	
-	# Valid
-	validator.validate('3')
-	validator.validate('441')
-	validator.validate('531')
-	validator.validate('a0')
-
-	# Invalid
-	validator.validate('TEST')
-	validator.validate('!£*&')
-
-	# Invalid number of balls
-	validator.validate('45')
-
-	# Invalid collisions
-	validator.validate('321')
-	
-
-if __name__ == "__main__":
-	main()
