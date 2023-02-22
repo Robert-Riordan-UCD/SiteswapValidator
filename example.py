@@ -4,18 +4,7 @@ from siteswap import Validator
 
 validator = Validator()
 
-# Valid
-validator.validate('3')
-validator.validate('441')
-validator.validate('531')
-validator.validate('a0')
+to_validate = ['3', '441', '531', 'a0', 'TEST', '!£*&', '45', '321']
 
-# Invalid
-validator.validate('TEST')
-validator.validate('!£*&')
-
-# Invalid number of balls
-validator.validate('45')
-
-# Invalid collisions
-validator.validate('321')
+for siteswap in to_validate:
+	print(f"{siteswap:<8} {validator.validate(siteswap)}")
