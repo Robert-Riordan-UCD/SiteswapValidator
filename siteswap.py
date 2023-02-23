@@ -74,7 +74,7 @@ class MultiplexValidator:
 	def validate(self, siteswap: str) -> bool:
 		if not any(c in siteswap for c in self.multiplex_characters): return self.vanilla_validator.validate(siteswap)
 		if not self._valid_string_(siteswap): return False
-		# if not self.num_balls(siteswap): return False
+		if not self.num_balls(siteswap): return False
 		# if self.collisions(siteswap): return False
 		return True
 
@@ -96,11 +96,15 @@ class MultiplexValidator:
 		Return None if the number is not whole or any character is invalid
 	"""
 	def num_balls(self, siteswap: str) -> int:
-		try:
-			total = sum(self._char_to_beats_(b) for b in siteswap)
-		except TypeError: # Invalid character
-			return None
-		num_balls = total/len(siteswap)
+		total = 0
+		period = 0
+		for s in siteswap:
+			try:
+				total += self._char_to_beats_(s)
+				period += 1
+			except TypeError:
+				if s == self.multiplex_open: period -= 1
+		num_balls = total/period
 		if num_balls%1: # Non-int number of balls
 			return None
 		return num_balls
@@ -119,7 +123,7 @@ class MultiplexValidator:
 		Invalid characters return None
 	"""
 	def _char_to_beats_(self, char: str) -> int:
-		if not char in self.valid_characters:
+		if not char in self.vanilla_characters:
 			return None 
 		try:
 			return int(char)
