@@ -98,12 +98,17 @@ class MultiplexValidator:
 	def num_balls(self, siteswap: str) -> int:
 		total = 0
 		period = 0
+		opened = False
 		for s in siteswap:
 			try:
 				total += self._char_to_beats_(s)
-				period += 1
+				if not opened: period += 1
 			except TypeError:
-				if s == self.multiplex_open: period -= 1
+				if s == self.multiplex_open:
+					opened = True
+					period += 1
+				else:
+					opened = False
 		num_balls = total/period
 		if num_balls%1: # Non-int number of balls
 			return None
