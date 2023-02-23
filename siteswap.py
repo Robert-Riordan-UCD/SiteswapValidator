@@ -75,7 +75,7 @@ class MultiplexValidator:
 		if not any(c in siteswap for c in self.multiplex_characters): return self.vanilla_validator.validate(siteswap)
 		if not self._valid_string_(siteswap): return False
 		if not self.num_balls(siteswap): return False
-		# if self.collisions(siteswap): return False
+		if self.collisions(siteswap): return False
 		return True
 
 	"""
@@ -88,7 +88,7 @@ class MultiplexValidator:
 			return
 		print(f"Siteswap:          {siteswap}")
 		print(f"Number of objects: {self.num_balls(siteswap):0.0f}")
-		print(f"Period:            {len(siteswap)}")
+		print(f"Period:            {self.period(siteswap)}")
 		print()
 
 	"""
@@ -118,8 +118,20 @@ class MultiplexValidator:
 		Returns True is a collision occurs for a given siteswap
 	"""
 	def collisions(self, siteswap: str) -> bool:
-		landing = set((pos+self._char_to_beats_(b))%len(siteswap) for pos, b in enumerate(siteswap))
-		return len(landing) != len(siteswap)
+		return False
+
+	def period(self, siteswap: str) -> int:
+		period = 0
+		opened = False
+		for s in siteswap:
+			if s == self.multiplex_open:
+				opened = True
+				period += 1
+			elif s == self.multiplex_close:
+				opened = False
+			elif not opened:
+				period += 1
+		return period
 
 	"""
 		Converts 1 character in the siteswap to the number of beats that character represents
