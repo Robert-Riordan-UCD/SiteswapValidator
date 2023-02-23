@@ -12,6 +12,19 @@ class Validator:
 		return True
 
 	"""
+		Print the details of a given siteswap
+			Number of objects, Period
+	"""
+	def print_details(self, siteswap: str) -> None:
+		if not self.validate(siteswap):
+			print(f"Invalid siteswap:  {siteswap}")
+			return
+		print(f"Siteswap:          {siteswap}")
+		print(f"Number of objects: {self.num_balls(siteswap):0.0f}")
+		print(f"Period:            {len(siteswap)}")
+		print()
+
+	"""
 		Calculates the number of balls required to juggle a given siteswap
 		Return None if the number is not whole or any character is invalid
 	"""
