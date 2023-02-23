@@ -11,6 +11,8 @@ print("---------|------")
 for siteswap in to_validate:
 	print(f"{siteswap:<8} | {validator.validate(siteswap)}")
 
+print()
+
 validator.print_details('3')
 validator.print_details('441')
 validator.print_details('a0')
@@ -22,3 +24,4 @@ validator.print_details('[32][]') # Invalid syntax
 validator.print_details('45') # Invalid number of balls
 validator.print_details('[75]3') # Invalid number of balls
 validator.print_details('[32][33]') # Invalid [xx][xx] -> [xxx][x]
+validator.print_details('[11]2') # Invalid disappearing balls
