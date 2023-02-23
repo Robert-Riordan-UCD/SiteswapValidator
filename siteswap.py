@@ -1,6 +1,8 @@
 #! /usr/bin/env python3
 
 class Validator:
+	valid_characters = '0123456789abcdefghijklmnopqrstuvwxyz'
+
 	"""
 		Validates a given vanilla siteswap
 	"""
@@ -37,10 +39,9 @@ class Validator:
 		Invalid characters return None
 	"""
 	def _char_to_beats_(self, char: str) -> int:
+		if not char in self.valid_characters:
+			return None 
 		try:
 			return int(char)
 		except ValueError:
-			beat = ord(char) - ord('a') + 10
-			if beat > 26 or beat < 10:
-				return None
-			return beat
+			return ord(char) - ord('a') + 10
