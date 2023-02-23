@@ -18,6 +18,7 @@ validator.print_details('441')
 validator.print_details('a0')
 validator.print_details('[22]0')
 validator.print_details('[a2]0')
+validator.print_details('4[a2]')
 validator.print_details('[32][32]')
 validator.print_details('[234]021')
 validator.print_details('[32][]') # Invalid syntax
