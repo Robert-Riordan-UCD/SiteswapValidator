@@ -113,7 +113,9 @@ class MultiplexValidator:
 		Returns True is a collision occurs for a given siteswap
 	"""
 	def collisions(self, siteswap: str) -> bool:
-		required_landing = [0 for _ in range(self.period(siteswap))]
+		period = self.period(siteswap)
+
+		required_landings = [0 for _ in range(period)]
 		opened = False
 		beat = 0
 		for s in siteswap:
@@ -123,27 +125,27 @@ class MultiplexValidator:
 				opened = False
 				beat += 1
 			elif opened:
-				required_landing[beat] += 1
+				required_landings[beat] += 1
 			else:
-				required_landing[beat] += 1
+				required_landings[beat] += 1
 				beat += 1
 
-		# actual_landing = [0 for _ in range(self.period(siteswap))]
-		# opened = True
-		# beat = 0
-		# for s in siteswap:
-		# 	if s == self.multiplex_open:
-		# 		opened = True
-		# 	elif s == self.multiplex_close:
-		# 		opened = False
-		# 	elif opened:
-		# 		expected_landing[beat] += 1
-		# 	else:
-		# 		beat += 1
-		# 		expected_landing[beat] += 1
+		actual_landings = [0 for _ in range(period)]
+		opened = False
+		beat = 0
+		for s in siteswap:
+			if s == self.multiplex_open:
+				opened = True
+			elif s == self.multiplex_close:
+				opened = False
+				beat += 1
+			elif opened:
+				actual_landings[(self._char_to_beats_(s)+beat)%period] += 1
+			else:
+				actual_landings[(self._char_to_beats_(s)+beat)%period] += 1
+				beat += 1
 
-		print(expected_landing)
-		return False
+		return required_landings != actual_landings
 
 	def period(self, siteswap: str) -> int:
 		period = 0
