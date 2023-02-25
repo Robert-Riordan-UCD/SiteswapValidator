@@ -85,6 +85,7 @@ class MultiplexValidator:
 	def print_details(self, siteswap: str) -> None:
 		if not self.validate(siteswap):
 			print(f"Invalid siteswap:  {siteswap}")
+			print()
 			return
 		print(f"Siteswap:          {siteswap}")
 		print(f"Number of objects: {self.num_balls(siteswap):0.0f}")
@@ -97,18 +98,12 @@ class MultiplexValidator:
 	"""
 	def num_balls(self, siteswap: str) -> int:
 		total = 0
-		period = 0
-		opened = False
+		period = self.period(siteswap)
 		for s in siteswap:
 			try:
 				total += self._char_to_beats_(s)
-				if not opened: period += 1
 			except TypeError:
-				if s == self.multiplex_open:
-					opened = True
-					period += 1
-				else:
-					opened = False
+				continue
 		num_balls = total/period
 		if num_balls%1: # Non-int number of balls
 			return None
@@ -118,6 +113,36 @@ class MultiplexValidator:
 		Returns True is a collision occurs for a given siteswap
 	"""
 	def collisions(self, siteswap: str) -> bool:
+		required_landing = [0 for _ in range(self.period(siteswap))]
+		opened = False
+		beat = 0
+		for s in siteswap:
+			if s == self.multiplex_open:
+				opened = True
+			elif s == self.multiplex_close:
+				opened = False
+				beat += 1
+			elif opened:
+				required_landing[beat] += 1
+			else:
+				required_landing[beat] += 1
+				beat += 1
+
+		# actual_landing = [0 for _ in range(self.period(siteswap))]
+		# opened = True
+		# beat = 0
+		# for s in siteswap:
+		# 	if s == self.multiplex_open:
+		# 		opened = True
+		# 	elif s == self.multiplex_close:
+		# 		opened = False
+		# 	elif opened:
+		# 		expected_landing[beat] += 1
+		# 	else:
+		# 		beat += 1
+		# 		expected_landing[beat] += 1
+
+		print(expected_landing)
 		return False
 
 	def period(self, siteswap: str) -> int:
