@@ -4,7 +4,7 @@ from siteswap import MultiplexValidator
 
 validator = MultiplexValidator()
 
-to_validate = ['3', '441', '531', 'a0', 'TEST', '!£*&', '45', '321', '[22]0', '[a2]0', '[32][32]', '[32][]', '45', '[75]3', '[32][33]']
+to_validate = ['3', '441', 'TEST', '321', '[22]0', '[a2]0', '[32][32]', '[32][]', '[75]3', '[32][33]', '[11]2', '[2[22]]2', ']3[']
 
 print("Siteswap | Valid")
 print("---------|------")
